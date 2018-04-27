@@ -1,24 +1,29 @@
 // Initializes the `sale` service on path `/sale`
+const createService = require('feathers-mongoose');
+const createModel = require('../../models/sale.model');
 const hooks = require('./sale.hooks');
-const extendService = require('../../helpers/extend-services');
+const filters = require('./sale.filters');
 
 module.exports = function () {
   const app = this;
+  const Model = createModel(app);
   const paginate = app.get('paginate');
 
   const options = {
     name: 'sale',
-    extend: 'base/sale',
-    allowedMethods: ['create', 'patch','find', 'remove','get'],
+    Model,
     paginate
   };
 
   // Initialize our service with any options it requires
-  app.use('/sale', extendService(options));
+  app.use('/base/sale', createService(options));
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('sale');
+  const service = app.service('base/sale');
 
   service.hooks(hooks);
 
+  if (service.filter) {
+    service.filter(filters);
+  }
 };

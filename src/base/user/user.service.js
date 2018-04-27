@@ -1,24 +1,29 @@
 // Initializes the `user` service on path `/user`
+const createService = require('feathers-mongoose');
+const createModel = require('../../models/user.model');
 const hooks = require('./user.hooks');
-const extendService = require('../../helpers/extend-services')
+const filters = require('./user.filters');
 
 module.exports = function () {
   const app = this;
+  const Model = createModel(app);
   const paginate = app.get('paginate');
 
   const options = {
     name: 'user',
-    extend: 'base/user',
-    allowedMethods: ['create', 'patch','find', 'remove','get'],
+    Model,
     paginate
   };
 
   // Initialize our service with any options it requires
-  app.use('/user', extendService(options));
+  app.use('/base/user', createService(options));
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('user');
+  const service = app.service('base/user');
 
   service.hooks(hooks);
 
+  if (service.filter) {
+    service.filter(filters);
+  }
 };

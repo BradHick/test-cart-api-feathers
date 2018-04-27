@@ -16,6 +16,7 @@ const notFound = require('feathers-errors/not-found');
 
 const middleware = require('./middleware');
 const services = require('./services');
+const base = require('./base');
 const appHooks = require('./app.hooks');
 
 const mongoose = require('./mongoose');
@@ -44,6 +45,7 @@ app.configure(socketio());
 app.configure(middleware);
 // Set up our services (see `services/index.js`)
 app.configure(services);
+app.configure(base);
 // Configure a middleware for 404s and the error handler
 app.use(notFound());
 app.use(handler());
