@@ -6,7 +6,10 @@ module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const sale = new Schema({
-    text: { type: String, required: true }
+
+    cart: { type: Schema.Types.ObjectId, ref:'cart' },
+    paid: { type: Boolean }
+
   }, {
     timestamps: true
   });
