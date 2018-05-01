@@ -1,13 +1,14 @@
-
+const updateStock = require('./before-hooks/update-stock');
+const returnStock = require('./after-hooks/return-stock');
 
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [updateStock()],
+    update: [updateStock()],
+    patch: [updateStock()],
     remove: []
   },
 
@@ -18,7 +19,7 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [returnStock()]
   },
 
   error: {

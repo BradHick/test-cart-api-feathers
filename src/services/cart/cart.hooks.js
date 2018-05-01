@@ -1,13 +1,13 @@
-
+const calcTotal = require('./before-hooks/calc-total');
 
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [calcTotal()],
+    update: [calcTotal()],
+    patch: [calcTotal()],
     remove: []
   },
 
